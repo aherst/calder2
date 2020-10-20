@@ -18,8 +18,6 @@ function setup() {
   }
 
   if (!("composition" in canvas)) canvas.composition = new Composition();
-  canvas.composition.width = canvas.width/2;
-  canvas.composition.height = canvas.height/2;
 
   // setup p5.js modes
   rectMode(CENTER);
@@ -27,9 +25,11 @@ function setup() {
 }
 
 function draw() {
-  canvas.background('red');
+  canvas.background('pink');
   canvas.centerOrigin();
   rect(0,0,canvas.composition.width,canvas.composition.height);
+
+  canvas.composition.spaces.push(new Space());
 
   noLoop();
 }
