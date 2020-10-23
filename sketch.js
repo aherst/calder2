@@ -4,18 +4,21 @@ let canvas = Object();
 
 function setup() {
   canvas = createCanvas(windowWidth/2,windowHeight/2);
+  canvas.center();
 
   // add properties and methods to the canvas object
-  if (!("center" in canvas)) canvas.center = function ()  {
+  /*
+  if (!("centerCanvas" in canvas)) canvas.centerCanvas = function ()  {
+    console.log('hi from center')
     canvas.position((windowWidth - width) / 2, (windowHeight - height) / 2);
   }
+*/
 
   if (!("centerOrigin" in canvas)) canvas.centerOrigin = function ()  {
     translate((windowWidth - width) / 2, (windowHeight - height) / 2);
   }
+  
   if (!("composition" in canvas)) canvas.composition = new Composition();
-
-  canvas.center();
 
   rectMode(CENTER);
 
