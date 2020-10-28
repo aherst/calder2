@@ -1,8 +1,5 @@
 function Space() {
-  this.center = {
-    x: 0,
-    y: 0,
-  };
+  this.center = {x: 0, y: 0};
   this.radius = 0;
 
   this.center = pickCenter();
@@ -22,44 +19,46 @@ function Space() {
         i = 0;
       }
     }
-    return(center);
-  }
 
-  function pickPoint() {
-    return {
-      x: int(random(-canvas.composition.width/2, canvas.composition.width/2)),
-      y: int(random(-canvas.composition.height/2, canvas.composition.height/2)),
-    };
+    return(center);
+
+    function pickPoint() {
+      return {
+        x: int(random(-canvas.composition.width/2, canvas.composition.width/2)),
+        y: int(random(-canvas.composition.height/2, canvas.composition.height/2)),
+      };
+    }
   }
 
   function pickRadius(center) {
-    console.log(center);
-    let maxRadius = (canvas.compositionwidth < canvas.compositionheight) ? canvas.compositionwidth/2 : canvas.compositionheight/2;
+    center: center;
     let radius = 0;
+    let maxRadius = (canvas.composition.width < canvas.composition.height) ? canvas.composition.width/2 : canvas.composition.height/2;
 
     // does the space extend beyond the edge of a mat?
-    while( withinMat(center, radius) ) {
+    while( inComposition() ) {
       radius++;
       // does the space encroach on another space?
-      for (let i = 0; i < spaces.length; i++) {
-        if ( encroaching(center, radius, spaces[i]) ) {
+      for (let i = 0; i < canvas.composition.spaces.length; i++) {
+        if ( encroaching(center, radius, canvas.composition.spaces[i]) ) {
           return radius;
         };
       }
     }
+
     return radius;
-  }
 
-  function withinMat(center, radius) {
-    if ((abs(center.x) + radius < int(canvas.compositionwidth/2)) && (abs(center.y) + radius < int(canvas.compositionheight/2) )) {
-      return true;
+    function inComposition() {
+      if ((abs(center.x) + radius < int(canvas.composition.width/2)) && (abs(center.y) + radius < int(canvas.composition.height/2) )) {
+        return true;
+      }
     }
-  }
 
-  function encroaching(center, radius, space) {
-    let overlap = 1; // 1 = no overlap
-    if (dist(center.x, center.y, space.center.x, space.center.y) < (radius + space.radius)/overlap) {
-      return true;
+    function encroaching(center, radius, space) {
+      let overlap = 1; // 1 = no overlap
+      if (dist(center.x, center.y, space.center.x, space.center.y) < (radius + space.radius)/overlap) {
+        return true;
+      }
     }
   }
 }
