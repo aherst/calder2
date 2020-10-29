@@ -19,9 +19,15 @@ function setup() {
 function draw() {
   canvas.background('pink');
   canvas.centerOrigin();
+  //noFill();
   rect(0,0,canvas.composition.width,canvas.composition.height);
 
   canvas.composition.spaces.push(new Space());
 
-//  noLoop();
+  // draw the contents of the spaces
+  for (let i = 0; i < canvas.composition.spaces.length; i++) {
+    ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
+  }
+
+  //  noLoop();
 }

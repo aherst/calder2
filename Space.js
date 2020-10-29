@@ -9,13 +9,15 @@ function Space() {
 
   function pickCenter() {
     let numTries = 0;
+    let maxTries = 2;
     let center = pickPoint();
 
     // does this point lie in another space in the composition?
-    for (let i = 0; i < canvas.composition.length; i++) {
-      while (dist(center.x, center.y, spaces[i].center.x, spaces[i].center.y) <= spaces[i].radius && numTries < maxTries) {
+    for (let i = 0; i < canvas.composition.spaces.length; i++) {
+      while (dist(center.x, center.y, canvas.composition.spaces[i].center.x, canvas.composition.spaces[i].center.y) <= canvas.composition.spaces[i].radius && numTries < maxTries) {
         numTries++;
-        (numTries >= maxTries) ? moreSpaces = false : center = pickPoint();
+  //      (numTries >= maxTries) ? moreSpaces = false : center = pickPoint();
+      center = pickPoint();
         i = 0;
       }
     }
@@ -31,7 +33,6 @@ function Space() {
   }
 
   function pickRadius(center) {
-    center: center;
     let radius = 0;
     let maxRadius = (canvas.composition.width < canvas.composition.height) ? canvas.composition.width/2 : canvas.composition.height/2;
 
