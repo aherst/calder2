@@ -11,8 +11,10 @@ function setup() {
   }
 
   if (!("composition" in canvas)) canvas.composition = new Composition();
+  canvas.composition.spaces.push(new Space());
 
   rectMode(CENTER);
+  ellipseMode(RADIUS);
 
 }
 
@@ -22,10 +24,12 @@ function draw() {
   //noFill();
   rect(0,0,canvas.composition.width,canvas.composition.height);
 
-  canvas.composition.spaces.push(new Space());
+  console.log(canvas.composition.spaces[canvas.composition.spaces.length - 1].center)
+  if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
+    canvas.composition.spaces.push(new Space());
+  }
 
-  // draw the contents of the spaces
-  for (let i = 0; i < canvas.composition.spaces.length; i++) {
+  for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
     ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
   }
 

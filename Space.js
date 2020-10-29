@@ -3,9 +3,10 @@ function Space() {
   this.radius = 0;
 
   this.center = pickCenter();
-  //  if (moreSpaces == true) {
-  this.radius = pickRadius(this.center);
-  //  }
+  console.log(this.center);
+  if (this.center != null) {
+    this.radius = pickRadius(this.center);
+  }
 
   function pickCenter() {
     let numTries = 0;
@@ -14,15 +15,19 @@ function Space() {
 
     // does this point lie in another space in the composition?
     for (let i = 0; i < canvas.composition.spaces.length; i++) {
-      while (dist(center.x, center.y, canvas.composition.spaces[i].center.x, canvas.composition.spaces[i].center.y) <= canvas.composition.spaces[i].radius && numTries < maxTries) {
-        numTries++;
-  //      (numTries >= maxTries) ? moreSpaces = false : center = pickPoint();
-      center = pickPoint();
-        i = 0;
+      while (dist(center.x, center.y, canvas.composition.spaces[i].center.x, canvas.composition.spaces[i].center.y) <= canvas.composition.spaces[i].radius) {
+        if (numTries < maxTries) {
+          console.log('hi')
+          center = null;
+          return center;
+        } else {
+          center = pickPoint();
+          numTries++;
+          i = 0
+        }
       }
     }
-
-    return(center);
+    return center;
 
     function pickPoint() {
       return {
@@ -37,7 +42,7 @@ function Space() {
     let maxRadius = (canvas.composition.width < canvas.composition.height) ? canvas.composition.width/2 : canvas.composition.height/2;
 
     // does the space extend beyond the edge of a mat?
-    while( inComposition() ) {
+    while( inComposition(center) ) {
       radius++;
       // does the space encroach on another space?
       for (let i = 0; i < canvas.composition.spaces.length; i++) {
@@ -49,7 +54,7 @@ function Space() {
 
     return radius;
 
-    function inComposition() {
+    function inComposition(center) {
       if ((abs(center.x) + radius < int(canvas.composition.width/2)) && (abs(center.y) + radius < int(canvas.composition.height/2) )) {
         return true;
       }
