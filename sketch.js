@@ -24,14 +24,30 @@ function draw() {
   //noFill();
   rect(0,0,canvas.composition.width,canvas.composition.height);
 
-  console.log(canvas.composition.spaces[canvas.composition.spaces.length - 1].center)
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
     canvas.composition.spaces.push(new Space());
+  } else {
+    save(canvas, canvas.composition.name + ".png");
+    reinitializeComposition();
+    redraw();
   }
 
   for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
     ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
   }
 
+  frameRate(1);
   //  noLoop();
+}
+
+function reinitializeComposition() {
+  canvas.composition = new Composition();
+  canvas.composition.name = "calder2_" + year() + month() + day() + hour() + minute() + second();;
+  canvas.composition.spaces.push(new Space());
+
+
+  // moreSpaces = true;
+  // palette = new Palette();
+  // backgroundColor = palette.analagous.plus60;
+  // background(backgroundColor);
 }
