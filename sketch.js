@@ -29,7 +29,7 @@ function draw() {
     canvas.composition.spaces.push(new Space());
     canvas.composition.spaces.sizeBucket = updateSizeBuckets();
   } else {
-    save(canvas, canvas.composition.name + ".png");
+    //save(canvas, canvas.composition.name + ".png");
     reinitializeComposition();
     redraw();
   }
