@@ -20,8 +20,9 @@ function setup() {
 }
 
 function draw() {
-  canvas.background('pink');
+  canvas.background('grey');
   canvas.centerOrigin();
+  fill('white');
   rect(0,0,canvas.composition.width,canvas.composition.height);
 
   // try to add another space to the composition
@@ -38,6 +39,7 @@ function draw() {
 
   // draw the shapes in each space
   for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
+    fill(canvas.composition.spaces[i].color);
     ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
   }
 
@@ -58,10 +60,31 @@ function reinitializeComposition() {
 }
 
 function updateColors() {
-  console.log(canvas.composition.spaces);
-  return;
-  canvas.composition.spaces.forEach(function (sizeBucket) {
-  //  console.log(canvas.composition.spaces.sizeBucket)
+  canvas.composition.spaces.forEach(function (space) {
+    switch (space.sizeBucket) {
+      case 1:
+        space.color = color('red');
+      break;
+      case 2:
+      space.color = color('green');
+      break;
+      case 3:
+      space.color = color('blue');
+      break;
+      case 4:
+      space.color = color('cyan');
+      break;
+      case 5:
+      space.color = color('yellow');
+      break;
+      case 6:
+      space.color = color('magenta');
+      break;
+      case 7:
+      space.color = color('black');
+      break;
+
+    }
   });
 }
 
