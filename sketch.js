@@ -6,13 +6,14 @@ function setup() {
   canvas = createCanvas(windowWidth/2,windowHeight/2);
   canvas.center();
 
+  // add some methods to the base canvas object
   if (!("centerOrigin" in canvas)) canvas.centerOrigin = function ()  {
     translate((windowWidth - width) / 2, (windowHeight - height) / 2);
   }
-
   if (!("composition" in canvas)) canvas.composition = new Composition();
   canvas.composition.spaces.push(new Space());
 
+  // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
 
@@ -21,13 +22,14 @@ function setup() {
 function draw() {
   canvas.background('pink');
   canvas.centerOrigin();
-  //noFill();
   rect(0,0,canvas.composition.width,canvas.composition.height);
 
   // try to add another space to the composition
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
     canvas.composition.spaces.push(new Space());
-    canvas.composition.spaces.sizeBucket = updateSizeBuckets();
+    updateSizeBuckets();
+    updateColors();
+
   } else {
     //save(canvas, canvas.composition.name + ".png");
     reinitializeComposition();
@@ -53,6 +55,14 @@ function reinitializeComposition() {
   // palette = new Palette();
   // backgroundColor = palette.analagous.plus60;
   // background(backgroundColor);
+}
+
+function updateColors() {
+  console.log(canvas.composition.spaces);
+  return;
+  canvas.composition.spaces.forEach(function (sizeBucket) {
+  //  console.log(canvas.composition.spaces.sizeBucket)
+  });
 }
 
 function updateSizeBuckets() {
