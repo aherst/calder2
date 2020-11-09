@@ -11,7 +11,12 @@ function setup() {
     translate((windowWidth - width) / 2, (windowHeight - height) / 2);
   }
   if (!("composition" in canvas)) canvas.composition = new Composition();
+
+  // initialize the first space
   canvas.composition.spaces.push(new Space());
+  canvas.composition.spaces[0].prevSizeBucket = null;
+  canvas.composition.spaces[0].sizeBucket = 7;
+
 
   // set some p5.js defaults
   rectMode(CENTER);
@@ -25,6 +30,13 @@ function draw() {
   fill('white');
   rect(0,0,canvas.composition.width,canvas.composition.height);
 
+  // draw the shapes in each space
+  for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
+    fill(canvas.composition.spaces[i].color);
+    ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
+  }
+
+
   // try to add another space to the composition
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
     canvas.composition.spaces.push(new Space());
@@ -37,12 +49,6 @@ function draw() {
     redraw();
   }
 
-  // draw the shapes in each space
-  for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
-    fill(canvas.composition.spaces[i].color);
-    ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
-  }
-
   frameRate(1);
   //  noLoop();
 }
@@ -51,7 +57,8 @@ function reinitializeComposition() {
   canvas.composition = new Composition();
   canvas.composition.name = "calder2_" + year() + month() + day() + hour() + minute() + second();;
   canvas.composition.spaces.push(new Space());
-
+  canvas.composition.spaces[0].prevSizeBucket = null;
+  canvas.composition.spaces[0].sizeBucket = 7;
 
   // moreSpaces = true;
   // palette = new Palette();
@@ -63,7 +70,7 @@ function updateColors() {
   canvas.composition.spaces.forEach(function (space) {
     switch (space.sizeBucket) {
       case 1:
-        space.color = color('red');
+      space.color = color('red');
       break;
       case 2:
       space.color = color('green');
