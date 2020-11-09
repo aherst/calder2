@@ -42,6 +42,7 @@ function draw() {
     canvas.composition.spaces.push(new Space());
     updateSizeBuckets();
     updateColors();
+    createShapes();
 
   } else {
     //save(canvas, canvas.composition.name + ".png");
@@ -52,6 +53,29 @@ function draw() {
   frameRate(1);
   //  noLoop();
 }
+
+function createShapes() {
+  canvas.composition.spaces[canvas.composition.spaces.length - 1].vertices = calder(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
+  //canvas.composition.spaces[canvas.composition.spaces.length - 1].color = chooseFill(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
+  for (let i = 0; i < canvas.composition.spaces.length; i++) {
+    if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
+      canvas.composition.spaces[i].vertices = calder(canvas.composition.spaces[i]);
+  //    canvas.composition.spaces[i].color = chooseFill(canvas.composition.spaces[i]);
+    }
+  }
+
+  function calder(space) {
+    let vertices = [];
+    let numVertices = space.sizeBucket + 4;
+    for (let i = 0; i < numVertices; i++) {
+      let radiusXMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
+      let radiusYMultiplier = radiusXMultiplier;
+      vertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
+    }
+    return vertices;
+  }
+}
+
 
 function reinitializeComposition() {
   canvas.composition = new Composition();
