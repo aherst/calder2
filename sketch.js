@@ -13,22 +13,40 @@ function setup() {
   if (!("composition" in canvas)) canvas.composition = new Composition();
 
   // initialize the first space
-  canvas.composition.spaces.push(new Space());
-  canvas.composition.spaces[0].prevSizeBucket = null;
-  canvas.composition.spaces[0].sizeBucket = 7;
+  //canvas.composition.spaces.push(new Space());
+  //canvas.composition.spaces[0].prevSizeBucket = null;
+  //canvas.composition.spaces[0].sizeBucket = 7;
 
 
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  canvas.background('grey');
 
 }
 
 function draw() {
-  canvas.background('grey');
   canvas.centerOrigin();
   fill('white');
   rect(0,0,canvas.composition.width,canvas.composition.height);
+
+  // try to add another space to the composition
+  canvas.composition.spaces.push(new Space());
+  if (canvas.composition.spaces.length == 1) {
+    canvas.composition.spaces[0].prevSizeBucket = null;
+    canvas.composition.spaces[0].sizeBucket = 7;
+  }
+
+  if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
+    updateSizeBuckets();
+    updateColors();
+    updateShapes();
+
+  } else {
+    //save(canvas, canvas.composition.name + ".png");
+    reinitializeComposition();
+    redraw();
+  }
 
   // draw the shapes in each space
   for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
@@ -37,42 +55,29 @@ function draw() {
   }
 
 
-  // try to add another space to the composition
-  if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
-    canvas.composition.spaces.push(new Space());
-    updateSizeBuckets();
-    updateColors();
-    createShapes();
-
-  } else {
-    //save(canvas, canvas.composition.name + ".png");
-    reinitializeComposition();
-    redraw();
-  }
-
   frameRate(1);
   //  noLoop();
 }
 
-function createShapes() {
-  canvas.composition.spaces[canvas.composition.spaces.length - 1].vertices = calder(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
+function updateShapes() {
+  canvas.composition.spaces[canvas.composition.spaces.length - 1].outlineVertices = calder(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   //canvas.composition.spaces[canvas.composition.spaces.length - 1].color = chooseFill(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   for (let i = 0; i < canvas.composition.spaces.length; i++) {
     if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
       canvas.composition.spaces[i].vertices = calder(canvas.composition.spaces[i]);
-  //    canvas.composition.spaces[i].color = chooseFill(canvas.composition.spaces[i]);
+      //    canvas.composition.spaces[i].color = chooseFill(canvas.composition.spaces[i]);
     }
   }
 
   function calder(space) {
-    let vertices = [];
+    let outlineVertices = [];
     let numVertices = space.sizeBucket + 4;
     for (let i = 0; i < numVertices; i++) {
       let radiusXMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
       let radiusYMultiplier = radiusXMultiplier;
-      vertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
+      outlineVertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
     }
-    return vertices;
+    return outlineVertices;
   }
 }
 
