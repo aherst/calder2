@@ -48,23 +48,42 @@ function draw() {
     redraw();
   }
 
-  // draw the shapes in each space
+/*
+  // draw a circle for each space
   for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
     fill(canvas.composition.spaces[i].color);
     ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
   }
+*/
 
+  // draw a shape for each space
+  drawOutlines();
 
   frameRate(1);
   //  noLoop();
 }
+
+function drawOutlines() {
+  for (let j = 0; j < canvas.composition.spaces.length; j++) {
+    fill(canvas.composition.spaces[j].color);
+    beginShape();
+    for (let i = 0; i < canvas.composition.spaces[j].outlineVertices.length; i++) {
+      curveVertex(canvas.composition.spaces[j].outlineVertices[i][0], canvas.composition.spaces[j].outlineVertices[i][1]);
+    }
+    for (let i = 0; i < 3; i++) {
+      curveVertex(canvas.composition.spaces[j].outlineVertices[i][0], canvas.composition.spaces[j].outlineVertices[i][1]);
+    }
+    endShape();
+  }
+}
+
 
 function updateShapes() {
   canvas.composition.spaces[canvas.composition.spaces.length - 1].outlineVertices = calder(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   //canvas.composition.spaces[canvas.composition.spaces.length - 1].color = chooseFill(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   for (let i = 0; i < canvas.composition.spaces.length; i++) {
     if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
-      canvas.composition.spaces[i].vertices = calder(canvas.composition.spaces[i]);
+      canvas.composition.spaces[i].outlineVertices = calder(canvas.composition.spaces[i]);
       //    canvas.composition.spaces[i].color = chooseFill(canvas.composition.spaces[i]);
     }
   }
