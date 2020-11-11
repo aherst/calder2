@@ -12,12 +12,6 @@ function setup() {
   }
   if (!("composition" in canvas)) canvas.composition = new Composition();
 
-  // initialize the first space
-  //canvas.composition.spaces.push(new Space());
-  //canvas.composition.spaces[0].prevSizeBucket = null;
-  //canvas.composition.spaces[0].sizeBucket = 7;
-
-
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
@@ -32,15 +26,18 @@ function draw() {
 
   // try to add another space to the composition
   canvas.composition.spaces.push(new Space());
-  if (canvas.composition.spaces.length == 1) {
-    canvas.composition.spaces[0].prevSizeBucket = null;
-    canvas.composition.spaces[0].sizeBucket = 7;
-  }
 
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
+    /*
+    if (canvas.composition.spaces.length == 1) {
+      canvas.composition.spaces[0].prevSizeBucket = null;
+      canvas.composition.spaces[0].sizeBucket = 7;
+    }
+    */
     updateSizeBuckets();
     updateColors();
-    updateShapes();
+    updateOutlines();
+    drawOutlines();
 
   } else {
     //save(canvas, canvas.composition.name + ".png");
@@ -48,23 +45,14 @@ function draw() {
     redraw();
   }
 
-/*
-  // draw a circle for each space
-  for (let i = 0; i < canvas.composition.spaces.length - 1; i++) {
-    fill(canvas.composition.spaces[i].color);
-    ellipse(canvas.composition.spaces[i].center.x,canvas.composition.spaces[i].center.y,canvas.composition.spaces[i].radius)
-  }
-*/
-
-  // draw a shape for each space
-  drawOutlines();
-
   frameRate(1);
   //  noLoop();
 }
 
 function drawOutlines() {
   for (let j = 0; j < canvas.composition.spaces.length; j++) {
+    noFill();
+    ellipse(canvas.composition.spaces[j].center.x, canvas.composition.spaces[j].center.y,canvas.composition.spaces[j].radius);
     fill(canvas.composition.spaces[j].color);
     beginShape();
     for (let i = 0; i < canvas.composition.spaces[j].outlineVertices.length; i++) {
@@ -77,8 +65,7 @@ function drawOutlines() {
   }
 }
 
-
-function updateShapes() {
+function updateOutlines() {
   canvas.composition.spaces[canvas.composition.spaces.length - 1].outlineVertices = calder(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   //canvas.composition.spaces[canvas.composition.spaces.length - 1].color = chooseFill(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   for (let i = 0; i < canvas.composition.spaces.length; i++) {
@@ -100,13 +87,8 @@ function updateShapes() {
   }
 }
 
-
 function reinitializeComposition() {
   canvas.composition = new Composition();
-  canvas.composition.name = "calder2_" + year() + month() + day() + hour() + minute() + second();;
-  canvas.composition.spaces.push(new Space());
-  canvas.composition.spaces[0].prevSizeBucket = null;
-  canvas.composition.spaces[0].sizeBucket = 7;
 
   // moreSpaces = true;
   // palette = new Palette();
