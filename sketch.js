@@ -28,21 +28,13 @@ function draw() {
   canvas.composition.spaces.push(new Space());
 
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
-    /*
-    if (canvas.composition.spaces.length == 1) {
-      canvas.composition.spaces[0].prevSizeBucket = null;
-      canvas.composition.spaces[0].sizeBucket = 7;
-    }
-    */
     updateSizeBuckets();
     updateColors();
     updateOutlines();
     drawOutlines();
-
   } else {
     //save(canvas, canvas.composition.name + ".png");
-    reinitializeComposition();
-    redraw();
+    canvas.composition = new Composition();
   }
 
   frameRate(1);
@@ -50,30 +42,33 @@ function draw() {
 }
 
 function drawOutlines() {
-  for (let j = 0; j < canvas.composition.spaces.length; j++) {
+  canvas.composition.spaces.forEach(function (space) {
     noFill();
-    ellipse(canvas.composition.spaces[j].center.x, canvas.composition.spaces[j].center.y,canvas.composition.spaces[j].radius);
-    fill(canvas.composition.spaces[j].color);
+    ellipse(space.center.x, space.center.y,space.radius);
+    fill(space.color);
     beginShape();
-    for (let i = 0; i < canvas.composition.spaces[j].outlineVertices.length; i++) {
-      curveVertex(canvas.composition.spaces[j].outlineVertices[i][0], canvas.composition.spaces[j].outlineVertices[i][1]);
-    }
+    space.outlineVertices.forEach(function (vertex) {
+      curveVertex(vertex[0], vertex[1]);
+    });
     for (let i = 0; i < 3; i++) {
-      curveVertex(canvas.composition.spaces[j].outlineVertices[i][0], canvas.composition.spaces[j].outlineVertices[i][1]);
+      curveVertex(space.outlineVertices[i][0], space.outlineVertices[i][1]);
     }
     endShape();
-  }
+  });
 }
 
 function updateOutlines() {
+  // add the outline for the new space
   canvas.composition.spaces[canvas.composition.spaces.length - 1].outlineVertices = calder(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   //canvas.composition.spaces[canvas.composition.spaces.length - 1].color = chooseFill(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
-  for (let i = 0; i < canvas.composition.spaces.length; i++) {
-    if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
-      canvas.composition.spaces[i].outlineVertices = calder(canvas.composition.spaces[i]);
-      //    canvas.composition.spaces[i].color = chooseFill(canvas.composition.spaces[i]);
+
+  // update the outlines of the existing spaces if they've been moved into a different sizeBucket
+  canvas.composition.spaces.forEach(function (space) {
+    if (space.sizeBucket != space.prevSizeBucket ) {
+      space.outlineVertices = calder(space);
+      //    space.color = chooseFill(space);
     }
-  }
+  });
 
   function calder(space) {
     let outlineVertices = [];
@@ -85,15 +80,6 @@ function updateOutlines() {
     }
     return outlineVertices;
   }
-}
-
-function reinitializeComposition() {
-  canvas.composition = new Composition();
-
-  // moreSpaces = true;
-  // palette = new Palette();
-  // backgroundColor = palette.analagous.plus60;
-  // background(backgroundColor);
 }
 
 function updateColors() {
