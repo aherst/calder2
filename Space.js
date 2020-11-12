@@ -36,7 +36,6 @@ function Space() {
 
   function pickRadius(center) {
     let radius = 0;
-    let maxRadius = (canvas.composition.width < canvas.composition.height) ? canvas.composition.width/2 : canvas.composition.height/2;
 
     // does the space extend beyond the edge of a mat?
     while( inComposition(center) ) {
@@ -48,7 +47,6 @@ function Space() {
         };
       }
     }
-
     return radius;
 
     function inComposition(center) {

@@ -115,25 +115,25 @@ function updateSizeBuckets() {
   let largestSpace = largestRadius();
   let smallestSpace = smallestRadius();
 
-  for (let i = 0; i < canvas.composition.spaces.length; i++) {
-    let radius = canvas.composition.spaces[i].radius;
-    canvas.composition.spaces[i].prevSizeBucket = canvas.composition.spaces[i].sizeBucket;
-    canvas.composition.spaces[i].sizeBucket = int(map(radius, smallestSpace, largestSpace, 1, 7, true));
-  }
+  canvas.composition.spaces.forEach(function (space) {
+    let radius = space.radius;
+    space.prevSizeBucket = space.sizeBucket;
+    space.sizeBucket = int(map(radius, smallestSpace, largestSpace, 1, 7, true));
+  });
 
   function smallestRadius() {
     let smallestSpace = largestSpace - 1;
-    for (let i = 0; i < canvas.composition.spaces.length; i++) {
-      canvas.composition.spaces[i].radius < smallestSpace ? smallestSpace = canvas.composition.spaces[i].radius : smallestSpace = smallestSpace;
-    }
+    canvas.composition.spaces.forEach(function (space) {
+      space.radius < smallestSpace ? smallestSpace = space.radius : smallestSpace = smallestSpace;
+    });
     return smallestSpace;
   }
 
   function largestRadius() {
     let largestSpace = 1;
-    for (let i = 0; i < canvas.composition.spaces.length; i++) {
-      canvas.composition.spaces[i].radius > largestSpace ? largestSpace = canvas.composition.spaces[i].radius : largestSpace = largestSpace;
-    }
+    canvas.composition.spaces.forEach(function (space) {
+      space.radius > largestSpace ? largestSpace = space.radius : largestSpace = largestSpace;
+    });
     return largestSpace;
   }
 }
