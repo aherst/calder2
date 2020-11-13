@@ -30,8 +30,10 @@ function draw() {
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
     updateSizeBuckets();
     updateColors();
-    updateOutlines();
-    drawOutlines();
+    updateOutlineVertices();
+    drawOutlineVertices();
+    updateInlineVertices();
+    drawInlineVertices();
   } else {
     //save(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
@@ -41,7 +43,20 @@ function draw() {
   //  noLoop();
 }
 
-function drawOutlines() {
+function updateInlineVertices() {
+  // add the vertices for the inline of shape for the new space
+  canvas.composition.spaces.forEach(function (space) {
+    space.outlineVertices.forEach(function (vertex) {
+
+    });
+  });
+}
+
+function drawInlineVertices() {
+
+}
+
+function drawOutlineVertices() {
   canvas.composition.spaces.forEach(function (space) {
     noFill();
     ellipse(space.center.x, space.center.y,space.radius);
@@ -57,8 +72,8 @@ function drawOutlines() {
   });
 }
 
-function updateOutlines() {
-  // add the outline for the new space
+function updateOutlineVertices() {
+  // add the vertices for the outline of the shape for the new space
   canvas.composition.spaces[canvas.composition.spaces.length - 1].outlineVertices = calder(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
   //canvas.composition.spaces[canvas.composition.spaces.length - 1].color = chooseFill(canvas.composition.spaces[canvas.composition.spaces.length - 1]);
 
