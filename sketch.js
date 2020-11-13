@@ -45,9 +45,11 @@ function draw() {
 
 function updateInlineVertices() {
   // add the vertices for the inline of shape for the new space
-  canvas.composition.spaces.forEach(function (space) {
-    space.outlineVertices.forEach(function (vertex) {
-
+  canvas.composition.spaces[canvas.composition.spaces.length - 1].inlineVertices = canvas.composition.spaces[canvas.composition.spaces.length - 1].outlineVertices;
+  canvas.composition.spaces.forEach( function (space) {
+    space.inlineVertices.forEach( function (vertex) {
+      vertex[0] = vertex[0] / 2;
+      vertex[1] = vertex[1] / 2;
     });
   });
 }
