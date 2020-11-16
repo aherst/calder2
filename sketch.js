@@ -45,13 +45,25 @@ function draw() {
 
 function updateInlineVertices() {
   // add the vertices for the inline of shape for the new space
-  canvas.composition.spaces[canvas.composition.spaces.length - 1].inlineVertices = canvas.composition.spaces[canvas.composition.spaces.length - 1].outlineVertices;
-  canvas.composition.spaces.forEach( function (space) {
-    space.inlineVertices.forEach( function (vertex) {
-      vertex[0] = vertex[0] / 2;
-      vertex[1] = vertex[1] / 2;
-    });
+  let lastSpace = canvas.composition.spaces.length - 1;
+  console.log(canvas.composition.spaces[lastSpace].outlineVertices)
+  canvas.composition.spaces[lastSpace].inlineVertices = canvas.composition.spaces[lastSpace].outlineVertices.slice();
+  console.log(canvas.composition.spaces[lastSpace].outlineVertices)
+  canvas.composition.spaces[lastSpace].inlineVertices.forEach(function (inlineVertex) {
+    inlineVertex[0] = (inlineVertex[0]) / 2;
+    inlineVertex[1] = (inlineVertex[1]) / 2;
   });
+
+/*
+  for (let i = 0; i < canvas.composition.spaces.length; i++) {
+    if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
+      for (let j = 0; j < canvas.composition.spaces[i].outlineVertices.length; j++) {
+        canvas.composition.spaces[i].inlineVertices[j][0] = (canvas.composition.spaces[i].outlineVertices[j][0]) / 2;
+        canvas.composition.spaces[i].inlineVertices[j][1] = (canvas.composition.spaces[i].outlineVertices[j][1]) / 2;
+      }
+    }
+  }
+  */
 }
 
 function drawInlineVertices() {
@@ -64,8 +76,8 @@ function drawOutlineVertices() {
     ellipse(space.center.x, space.center.y,space.radius);
     fill(space.color);
     beginShape();
-    space.outlineVertices.forEach(function (vertex) {
-      curveVertex(vertex[0], vertex[1]);
+    space.outlineVertices.forEach(function (outlineVertex) {
+      curveVertex(outlineVertex[0], outlineVertex[1]);
     });
     for (let i = 0; i < 3; i++) {
       curveVertex(space.outlineVertices[i][0], space.outlineVertices[i][1]);
