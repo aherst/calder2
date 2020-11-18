@@ -46,14 +46,21 @@ function draw() {
 function updateInlineVertices() {
   // add the vertices for the inline of shape for the new space
   let lastSpace = canvas.composition.spaces.length - 1;
-  console.log(canvas.composition.spaces[lastSpace].outlineVertices)
-  canvas.composition.spaces[lastSpace].inlineVertices = canvas.composition.spaces[lastSpace].outlineVertices.slice();
-  console.log(canvas.composition.spaces[lastSpace].outlineVertices)
+  canvas.composition.spaces[lastSpace].inlineVertices =  JSON.parse(JSON.stringify(canvas.composition.spaces[lastSpace].outlineVertices));
   canvas.composition.spaces[lastSpace].inlineVertices.forEach(function (inlineVertex) {
     inlineVertex[0] = (inlineVertex[0]) / 2;
     inlineVertex[1] = (inlineVertex[1]) / 2;
   });
 
+  canvas.composition.spaces.forEach(function (space) {
+    if (space.sizeBucket != space.prevSizeBucket ) {
+      space.inlineVertices = JSON.parse(JSON.stringify(space.outlineVertices));
+      space.inlineVertices.forEach(function (inlineVertex) {
+        inlineVertex[0] = (inlineVertex[0]) / 2;
+        inlineVertex[1] = (inlineVertex[1]) / 2;
+      });
+    }
+  });
 /*
   for (let i = 0; i < canvas.composition.spaces.length; i++) {
     if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
