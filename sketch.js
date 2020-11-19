@@ -95,14 +95,19 @@ function drawOutlineVertices() {
     noFill();
     ellipse(space.center.x, space.center.y,space.radius);
     fill(space.color);
+    let radiusXMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
+    let radiusYMultiplier = radiusXMultiplier;
+    push();
+    translate(space.center.x, space.center.y);
     beginShape();
     space.outlineVertices.forEach(function (outlineVertex) {
-      curveVertex(outlineVertex[0], outlineVertex[1]);
+      curveVertex(outlineVertex[0] * radiusXMultiplier, outlineVertex[1] * radiusYMultiplier);
     });
     for (let i = 0; i < 3; i++) {
-      curveVertex(space.outlineVertices[i][0], space.outlineVertices[i][1]);
+      curveVertex(space.outlineVertices[i][0] * radiusXMultiplier, space.outlineVertices[i][1] * radiusYMultiplier);
     }
     endShape();
+    pop();
   });
 }
 
@@ -123,9 +128,8 @@ function updateOutlineVertices() {
     let outlineVertices = [];
     let numVertices = space.sizeBucket + 3;
     for (let i = 0; i < numVertices; i++) {
-      let radiusXMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
-      let radiusYMultiplier = radiusXMultiplier;
-      outlineVertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
+      //outlineVertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
+      outlineVertices[i] = [ (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))), (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))) ]
     }
     return outlineVertices;
   }
