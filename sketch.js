@@ -48,16 +48,16 @@ function updateInlineVertices() {
   let lastSpace = canvas.composition.spaces.length - 1;
   canvas.composition.spaces[lastSpace].inlineVertices =  JSON.parse(JSON.stringify(canvas.composition.spaces[lastSpace].outlineVertices));
   canvas.composition.spaces[lastSpace].inlineVertices.forEach(function (inlineVertex) {
-    inlineVertex[0] = (inlineVertex[0]) / 2;
-    inlineVertex[1] = (inlineVertex[1]) / 2;
+    inlineVertex[0] = inlineVertex[0] - (inlineVertex[0] / 2);
+    inlineVertex[1] = inlineVertex[1] - (inlineVertex[1] / 2);
   });
 
   canvas.composition.spaces.forEach(function (space) {
     if (space.sizeBucket != space.prevSizeBucket ) {
       space.inlineVertices = JSON.parse(JSON.stringify(space.outlineVertices));
       space.inlineVertices.forEach(function (inlineVertex) {
-        inlineVertex[0] = (inlineVertex[0]) / 2;
-        inlineVertex[1] = (inlineVertex[1]) / 2;
+        inlineVertex[0] = inlineVertex[0] - (inlineVertex[0] / 2);
+        inlineVertex[1] = inlineVertex[1] - (inlineVertex[1] / 2);
       });
     }
   });
@@ -74,6 +74,19 @@ function updateInlineVertices() {
 }
 
 function drawInlineVertices() {
+  canvas.composition.spaces.forEach(function (space) {
+    noFill();
+    ellipse(space.center.x, space.center.y,space.radius);
+    fill(random(255),random(255),random(255));
+    beginShape();
+    space.inlineVertices.forEach(function (inlineVertex) {
+      curveVertex(inlineVertex[0], inlineVertex[1]);
+    });
+    for (let i = 0; i < 3; i++) {
+      curveVertex(space.inlineVertices[i][0], space.inlineVertices[i][1]);
+    }
+    endShape();
+  });
 
 }
 
