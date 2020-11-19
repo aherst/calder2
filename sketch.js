@@ -33,7 +33,7 @@ function draw() {
     updateOutlineVertices();
     drawOutlineVertices();
     updateInlineVertices();
-    drawInlineVertices();
+//    drawInlineVertices();
   } else {
     //save(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
@@ -92,19 +92,21 @@ function drawInlineVertices() {
 
 function drawOutlineVertices() {
   canvas.composition.spaces.forEach(function (space) {
+    // draw an elliplse around the space
     noFill();
     ellipse(space.center.x, space.center.y,space.radius);
     fill(space.color);
-    let radiusXMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
-    let radiusYMultiplier = radiusXMultiplier;
+    // draw the shape in the space
     push();
     translate(space.center.x, space.center.y);
     beginShape();
     space.outlineVertices.forEach(function (outlineVertex) {
-      curveVertex(outlineVertex[0] * radiusXMultiplier, outlineVertex[1] * radiusYMultiplier);
+      outlineVertex.multiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
+      outlineVertex.multiplier = 50;
+      curveVertex(outlineVertex[0] * outlineVertex.multiplier, outlineVertex[1] * outlineVertex.multiplier);
     });
     for (let i = 0; i < 3; i++) {
-      curveVertex(space.outlineVertices[i][0] * radiusXMultiplier, space.outlineVertices[i][1] * radiusYMultiplier);
+      curveVertex(space.outlineVertices[i][0] * space.outlineVertices[i].multiplier, space.outlineVertices[i] * space.outlineVertices[i][1].multiplier);
     }
     endShape();
     pop();
