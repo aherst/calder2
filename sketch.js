@@ -121,7 +121,7 @@ function updateOutlineVertices() {
 
   function calder(space) {
     let outlineVertices = [];
-    let numVertices = space.sizeBucket + 4;
+    let numVertices = space.sizeBucket + 3;
     for (let i = 0; i < numVertices; i++) {
       let radiusXMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
       let radiusYMultiplier = radiusXMultiplier;
