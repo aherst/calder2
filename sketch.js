@@ -101,12 +101,10 @@ function drawOutlineVertices() {
     translate(space.center.x, space.center.y);
     beginShape();
     space.outlineVertices.forEach(function (outlineVertex) {
-      outlineVertex.multiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
-      outlineVertex.multiplier = 50;
-      curveVertex(outlineVertex[0] * outlineVertex.multiplier, outlineVertex[1] * outlineVertex.multiplier);
+      curveVertex(outlineVertex[0], outlineVertex[1]);
     });
     for (let i = 0; i < 3; i++) {
-      curveVertex(space.outlineVertices[i][0] * space.outlineVertices[i].multiplier, space.outlineVertices[i] * space.outlineVertices[i][1].multiplier);
+    curveVertex(space.outlineVertices[i][0], space.outlineVertices[i][1]);
     }
     endShape();
     pop();
@@ -132,6 +130,10 @@ function updateOutlineVertices() {
     for (let i = 0; i < numVertices; i++) {
       //outlineVertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
       outlineVertices[i] = [ (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))), (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))) ]
+      let radiusMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
+      outlineVertices[i][0] = outlineVertices[i][0] * radiusMultiplier;
+      outlineVertices[i][1] = outlineVertices[i][1] * radiusMultiplier;
+
     }
     return outlineVertices;
   }
