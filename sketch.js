@@ -33,7 +33,7 @@ function draw() {
     updateOutlineVertices();
     drawOutlineVertices();
     updateInlineVertices();
-//    drawInlineVertices();
+    drawInlineVertices();
   } else {
     //save(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
@@ -75,8 +75,8 @@ function updateInlineVertices() {
 
 function drawInlineVertices() {
   canvas.composition.spaces.forEach(function (space) {
-    noFill();
-    ellipse(space.center.x, space.center.y,space.radius);
+    push();
+    translate(space.center.x, space.center.y);
     fill(random(255),random(255),random(255));
     beginShape();
     space.inlineVertices.forEach(function (inlineVertex) {
@@ -86,6 +86,7 @@ function drawInlineVertices() {
       curveVertex(space.inlineVertices[i][0], space.inlineVertices[i][1]);
     }
     endShape();
+    pop();
   });
 
 }
