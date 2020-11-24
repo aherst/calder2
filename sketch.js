@@ -1,10 +1,10 @@
 "use strict"
 
-let canvas = Object();
+let canvas = {};
 
 function setup() {
-  canvas = createCanvas(windowWidth/2,windowHeight/2);
-  canvas.center();
+  canvas = createCanvas(windowWidth/2, windowHeight/2);
+  //canvas = createCanvas(11 * 300, 8.5 * 300);
 
   // add some methods to the base canvas object
   if (!("centerOrigin" in canvas)) canvas.centerOrigin = function ()  {
@@ -20,6 +20,7 @@ function setup() {
 }
 
 function draw() {
+  canvas.center();
   canvas.centerOrigin();
   fill('white');
   rect(0,0,canvas.composition.width,canvas.composition.height);
@@ -35,7 +36,8 @@ function draw() {
     updateInlineVertices();
     drawInlineVertices();
   } else {
-    //save(canvas, canvas.composition.name + ".png");
+    save(canvas, canvas.composition.name + ".png");
+    exit;
     canvas.composition = new Composition();
   }
 
@@ -96,7 +98,7 @@ function drawOutlineVertices() {
   canvas.composition.spaces.forEach(function (space) {
     // draw an elliplse around the space
     noFill();
-    ellipse(space.center.x, space.center.y,space.radius);
+    // ellipse(space.center.x, space.center.y,space.radius);
     fill(space.color);
     // draw the shape in the space
     push();
