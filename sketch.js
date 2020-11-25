@@ -28,7 +28,6 @@ function draw() {
   canvas.centerCanvas();
   canvas.centerOrigin();
   fill('white');
-  rect(0,0,canvas.composition.width,canvas.composition.height);
 
   // try to add another space to the composition
   canvas.composition.spaces.push(new Space());
@@ -37,11 +36,12 @@ function draw() {
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
-    drawOutlineVertices();
     updateInlineVertices();
+    rect(0,0,canvas.composition.width,canvas.composition.height);
+    drawOutlineVertices();
     drawInlineVertices();
   } else {
-    save(canvas, canvas.composition.name + ".png");
+    saveCanvas(canvas, canvas.composition.name + ".png");
     //exit;
     //canvas.composition = new Composition();
   }
