@@ -3,24 +3,29 @@
 let canvas = {};
 
 function setup() {
-  canvas = createCanvas(windowWidth/2, windowHeight/2);
+  canvas = createCanvas(windowWidth, windowHeight);
   //canvas = createCanvas(11 * 300, 8.5 * 300);
 
   // add some methods to the base canvas object
-  if (!("centerOrigin" in canvas)) canvas.centerOrigin = function ()  {
-    translate((windowWidth - width) / 2, (windowHeight - height) / 2);
+  if (!("centerCanvas" in canvas)) canvas.centerCanvas = function ()  {
+    canvas.position((windowWidth - canvas.width) / 2, (windowHeight - canvas.height) / 2);
   }
+
+  if (!("centerOrigin" in canvas)) canvas.centerOrigin = function ()  {
+    translate(canvas.width / 2, canvas.height / 2);
+  }
+
   if (!("composition" in canvas)) canvas.composition = new Composition();
 
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
-  canvas.background('grey');
+  background('grey');
 
 }
 
 function draw() {
-  canvas.center();
+  canvas.centerCanvas();
   canvas.centerOrigin();
   fill('white');
   rect(0,0,canvas.composition.width,canvas.composition.height);
@@ -37,8 +42,8 @@ function draw() {
     drawInlineVertices();
   } else {
     save(canvas, canvas.composition.name + ".png");
-    exit;
-    canvas.composition = new Composition();
+    //exit;
+    //canvas.composition = new Composition();
   }
 
   frameRate(1);
@@ -48,7 +53,7 @@ function draw() {
 function updateInlineVertices() {
   // add the vertices for the inline of shape for the new space
   let lastSpace = canvas.composition.spaces.length - 1;
-  let outlineWidth = 0.1;
+  let outlineWidth = 0.2;
   canvas.composition.spaces[lastSpace].inlineVertices =  JSON.parse(JSON.stringify(canvas.composition.spaces[lastSpace].outlineVertices));
   canvas.composition.spaces[lastSpace].inlineVertices.forEach(function (inlineVertex) {
     inlineVertex[0] = inlineVertex[0] - (inlineVertex[0] * outlineWidth);
@@ -64,16 +69,16 @@ function updateInlineVertices() {
       });
     }
   });
-/*
+  /*
   for (let i = 0; i < canvas.composition.spaces.length; i++) {
-    if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
-      for (let j = 0; j < canvas.composition.spaces[i].outlineVertices.length; j++) {
-        canvas.composition.spaces[i].inlineVertices[j][0] = (canvas.composition.spaces[i].outlineVertices[j][0]) / 2;
-        canvas.composition.spaces[i].inlineVertices[j][1] = (canvas.composition.spaces[i].outlineVertices[j][1]) / 2;
-      }
-    }
-  }
-  */
+  if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
+  for (let j = 0; j < canvas.composition.spaces[i].outlineVertices.length; j++) {
+  canvas.composition.spaces[i].inlineVertices[j][0] = (canvas.composition.spaces[i].outlineVertices[j][0]) / 2;
+  canvas.composition.spaces[i].inlineVertices[j][1] = (canvas.composition.spaces[i].outlineVertices[j][1]) / 2;
+}
+}
+}
+*/
 }
 
 function drawInlineVertices() {
@@ -108,7 +113,7 @@ function drawOutlineVertices() {
       curveVertex(outlineVertex[0], outlineVertex[1]);
     });
     for (let i = 0; i < 3; i++) {
-    curveVertex(space.outlineVertices[i][0], space.outlineVertices[i][1]);
+      curveVertex(space.outlineVertices[i][0], space.outlineVertices[i][1]);
     }
     endShape();
     pop();
