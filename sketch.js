@@ -4,7 +4,7 @@ let canvas = {};
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
-  //canvas = createCanvas(11 * 300, 8.5 * 300);
+  canvas = createCanvas(11 * 300, 8.5 * 300);
 
   // add some methods to the base canvas object
   if (!("centerCanvas" in canvas)) canvas.centerCanvas = function ()  {
@@ -42,8 +42,7 @@ function draw() {
     drawInlineVertices();
   } else {
     saveCanvas(canvas, canvas.composition.name + ".png");
-    //exit;
-    //canvas.composition = new Composition();
+    canvas.composition = new Composition();
   }
 
   frameRate(1);

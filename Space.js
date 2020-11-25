@@ -9,7 +9,7 @@ function Space() {
 
   function pickCenter() {
     let numTries = 0;
-    let maxTries = 1;
+    let maxTries = 2;
     let center = pickPoint();
 
     // does this point lie in another space in the composition?
