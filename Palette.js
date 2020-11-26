@@ -1,4 +1,4 @@
-function Palette(spaces) {
+function Palette() {
   this.primary = color(int(random(360)),100,100);
 
   this.complementary = {
@@ -36,4 +36,77 @@ function Palette(spaces) {
     minus60: color(360 - (hue(this.primary) - 60) % 360, analagousSaturation, 100),
   }
 
+  this.chooseColor = function (sizeBucket) {
+    switch (8 - sizeBucket) {
+      case 1:
+      return this.primary;
+      break;
+      case 2:
+      return this.complementary.plus180;
+      break;
+      case 3:
+      switch ( int(random(1,3) )) {
+        case 1:
+        return this.triadic.plus120;
+        break;
+        case 2:
+        return this.triadic.minus120;
+        break;
+      }
+      break;
+      case 4:
+      switch ( int(random(1,3) )) {
+        case 1:
+        return this.splitComplementary.plus150;
+        break;
+        case 2:
+        return this.splitComplementary.minus150;
+        break;
+      }
+      break;
+      case 5:
+      switch ( int(random(1,4) )) {
+        case 1:
+        return this.tetradic.plus120;
+        break;
+        case 2:
+        return this.tetradic.plus180;
+        break;
+        case 3:
+        return this.tetradic.minus60;
+        break;
+      }
+      break;
+      case 6:
+      switch ( int(random(1,4) )) {
+        case 1:
+        return this.square.plus90;
+        break;
+        case 2:
+        return this.square.plus180;
+        break;
+        case 3:
+        return this.square.minus90;
+        break;
+      }
+      break;
+      case 7:
+      switch ( int(random(1,5) )) {
+        case 1:
+        return this.analagous.plus60;
+        break;
+        case 2:
+        return this.analagous.plus30;
+        break;
+        case 3:
+        return this.analagous.minus30;
+        break;
+        case 4:
+        return this.analagous.minus60;
+        break;
+      }
+      break;
+    }
+
+  }
 }

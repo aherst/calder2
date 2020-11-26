@@ -26,6 +26,7 @@ function setup() {
   // add the composition object to the canvas
   if (!("composition" in canvas)) {
     canvas.composition = new Composition();
+    canvas.composition.palette = new Palette();
   } else {
     console.log('composition already exists');
   }
@@ -85,7 +86,7 @@ function drawInlineVertices() {
   canvas.composition.spaces.forEach(function (space) {
     push();
     translate(space.center.x, space.center.y);
-    fill(random(255),random(255),random(255));
+    fill(space.color);
     beginShape();
     space.inlineVertices.forEach(function (inlineVertex) {
       curveVertex(inlineVertex.x, inlineVertex.y);
@@ -149,29 +150,7 @@ function updateOutlineVertices() {
 
 function updateColors() {
   canvas.composition.spaces.forEach(function (space) {
-    switch (space.sizeBucket) {
-      case 1:
-      space.color = color('black');
-      break;
-      case 2:
-      space.color = color('black');
-      break;
-      case 3:
-      space.color = color('black');
-      break;
-      case 4:
-      space.color = color('black');
-      break;
-      case 5:
-      space.color = color('black');
-      break;
-      case 6:
-      space.color = color('black');
-      break;
-      case 7:
-      space.color = color('black');
-      break;
-    }
+    space.color = canvas.composition.palette.chooseColor(space.sizeBucket);
   });
 }
 
