@@ -33,6 +33,8 @@ function setup() {
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  frameRate(1);
+  noStroke();
 }
 
 function draw() {
@@ -40,8 +42,8 @@ function draw() {
   canvas.centerOrigin();
 
   // try to add another space to the composition
+  // returns center == null if we can't place another space
   canvas.composition.spaces.push(new Space());
-
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
     background('white');
     updateSizeBuckets();
@@ -55,15 +57,13 @@ function draw() {
     noLoop();
     canvas.composition = new Composition();
   }
-
-  frameRate(1);
-  //  noLoop();
 }
 
 function updateInlineVertices() {
   // add the vertices for the inline of shape for the new space
   let lastSpace = canvas.composition.spaces.length - 1;
-  let outlineWidth = 0.2;
+  let outlineWidth = 0.1;
+  // we need a deep copy of the array so use JSON methods
   canvas.composition.spaces[lastSpace].inlineVertices =  JSON.parse(JSON.stringify(canvas.composition.spaces[lastSpace].outlineVertices));
   canvas.composition.spaces[lastSpace].inlineVertices.forEach(function (inlineVertex) {
     inlineVertex.x = inlineVertex.x - (inlineVertex.x * outlineWidth);
@@ -79,16 +79,6 @@ function updateInlineVertices() {
       });
     }
   });
-  /*
-  for (let i = 0; i < canvas.composition.spaces.length; i++) {
-  if (canvas.composition.spaces[i].sizeBucket != canvas.composition.spaces[i].prevSizeBucket ) {
-  for (let j = 0; j < canvas.composition.spaces[i].outlineVertices.length; j++) {
-  canvas.composition.spaces[i].inlineVertices[j][0] = (canvas.composition.spaces[i].outlineVertices[j][0]) / 2;
-  canvas.composition.spaces[i].inlineVertices[j][1] = (canvas.composition.spaces[i].outlineVertices[j][1]) / 2;
-}
-}
-}
-*/
 }
 
 function drawInlineVertices() {
@@ -111,9 +101,6 @@ function drawInlineVertices() {
 
 function drawOutlineVertices() {
   canvas.composition.spaces.forEach(function (space) {
-    // draw an elliplse around the space
-    noFill();
-    // ellipse(space.center.x, space.center.y,space.radius);
     fill(space.color);
     // draw the shape in the space
     push();
@@ -147,7 +134,6 @@ function updateOutlineVertices() {
     let outlineVertices = [ ];
     let numVertices = space.sizeBucket + 3;
     for (let i = 0; i < numVertices; i++) {
-      //outlineVertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
       outlineVertices[i] = {
         x: (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))),
         y:  (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))))
@@ -156,7 +142,6 @@ function updateOutlineVertices() {
       let radiusMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
       outlineVertices[i].x = outlineVertices[i].x * radiusMultiplier;
       outlineVertices[i].y = outlineVertices[i].y * radiusMultiplier;
-
     }
     return outlineVertices;
   }
@@ -166,27 +151,26 @@ function updateColors() {
   canvas.composition.spaces.forEach(function (space) {
     switch (space.sizeBucket) {
       case 1:
-      space.color = color('red');
+      space.color = color('black');
       break;
       case 2:
-      space.color = color('green');
+      space.color = color('black');
       break;
       case 3:
-      space.color = color('blue');
+      space.color = color('black');
       break;
       case 4:
-      space.color = color('cyan');
+      space.color = color('black');
       break;
       case 5:
-      space.color = color('yellow');
+      space.color = color('black');
       break;
       case 6:
-      space.color = color('magenta');
+      space.color = color('black');
       break;
       case 7:
       space.color = color('black');
       break;
-
     }
   });
 }
