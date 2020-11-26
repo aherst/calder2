@@ -36,7 +36,7 @@ function Palette() {
     minus60: color(360 - (hue(this.primary) - 60) % 360, analagousSaturation, 100),
   }
 
-  this.chooseColor = function (sizeBucket) {
+  this.chooseFill = function (sizeBucket) {
     switch (8 - sizeBucket) {
       case 1:
       return this.primary;
@@ -107,6 +107,24 @@ function Palette() {
       }
       break;
     }
+  }
 
+  switch ( int(random(1,5) )) {
+    case 1:
+    this.backgroundColor =
+    this.analagous.plus60;
+    break;
+    case 2:
+    this.backgroundColor =
+    this.analagous.plus30;
+    break;
+    case 3:
+    this.backgroundColor =
+    this.analagous.minus30;
+    break;
+    case 4:
+    this.backgroundColor =
+    this.analagous.minus60;
+    break;
   }
 }

@@ -46,7 +46,7 @@ function draw() {
   // returns center == null if we can't place another space
   canvas.composition.spaces.push(new Space());
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
-    background('white');
+    background(canvas.composition.palette.backgroundColor);
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
@@ -97,12 +97,11 @@ function drawInlineVertices() {
     endShape();
     pop();
   });
-
 }
 
 function drawOutlineVertices() {
   canvas.composition.spaces.forEach(function (space) {
-    fill(space.color);
+    fill('black');
     // draw the shape in the space
     push();
     translate(space.center.x, space.center.y);
@@ -150,7 +149,7 @@ function updateOutlineVertices() {
 
 function updateColors() {
   canvas.composition.spaces.forEach(function (space) {
-    space.color = canvas.composition.palette.chooseColor(space.sizeBucket);
+    space.color = canvas.composition.palette.chooseFill(space.sizeBucket);
   });
 }
 
