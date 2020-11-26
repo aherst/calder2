@@ -4,7 +4,7 @@ let canvas = {};
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
-  canvas = createCanvas(11 * 300, 8.5 * 300);
+  //canvas = createCanvas(11 * 300, 8.5 * 300);
 
   // add some methods to the base canvas object
   if (!("centerCanvas" in canvas)) canvas.centerCanvas = function ()  {
@@ -42,6 +42,7 @@ function draw() {
     drawInlineVertices();
   } else {
     saveCanvas(canvas, canvas.composition.name + ".png");
+    noLoop();
     canvas.composition = new Composition();
   }
 
@@ -55,16 +56,16 @@ function updateInlineVertices() {
   let outlineWidth = 0.2;
   canvas.composition.spaces[lastSpace].inlineVertices =  JSON.parse(JSON.stringify(canvas.composition.spaces[lastSpace].outlineVertices));
   canvas.composition.spaces[lastSpace].inlineVertices.forEach(function (inlineVertex) {
-    inlineVertex[0] = inlineVertex[0] - (inlineVertex[0] * outlineWidth);
-    inlineVertex[1] = inlineVertex[1] - (inlineVertex[1] * outlineWidth);
+    inlineVertex.x = inlineVertex.x - (inlineVertex.x * outlineWidth);
+    inlineVertex.y = inlineVertex.y - (inlineVertex.y * outlineWidth);
   });
 
   canvas.composition.spaces.forEach(function (space) {
     if (space.sizeBucket != space.prevSizeBucket ) {
       space.inlineVertices = JSON.parse(JSON.stringify(space.outlineVertices));
       space.inlineVertices.forEach(function (inlineVertex) {
-        inlineVertex[0] = inlineVertex[0] - (inlineVertex[0] * outlineWidth);
-        inlineVertex[1] = inlineVertex[1] - (inlineVertex[1] * outlineWidth);
+        inlineVertex.x = inlineVertex.x - (inlineVertex.x * outlineWidth);
+        inlineVertex.y = inlineVertex.y - (inlineVertex.y * outlineWidth);
       });
     }
   });
@@ -87,10 +88,10 @@ function drawInlineVertices() {
     fill(random(255),random(255),random(255));
     beginShape();
     space.inlineVertices.forEach(function (inlineVertex) {
-      curveVertex(inlineVertex[0], inlineVertex[1]);
+      curveVertex(inlineVertex.x, inlineVertex.y);
     });
     for (let i = 0; i < 3; i++) {
-      curveVertex(space.inlineVertices[i][0], space.inlineVertices[i][1]);
+      curveVertex(space.inlineVertices[i].x, space.inlineVertices[i].y);
     }
     endShape();
     pop();
@@ -109,10 +110,10 @@ function drawOutlineVertices() {
     translate(space.center.x, space.center.y);
     beginShape();
     space.outlineVertices.forEach(function (outlineVertex) {
-      curveVertex(outlineVertex[0], outlineVertex[1]);
+      curveVertex(outlineVertex.x, outlineVertex.y);
     });
     for (let i = 0; i < 3; i++) {
-      curveVertex(space.outlineVertices[i][0], space.outlineVertices[i][1]);
+      curveVertex(space.outlineVertices[i].x, space.outlineVertices[i].y);
     }
     endShape();
     pop();
@@ -133,14 +134,18 @@ function updateOutlineVertices() {
   });
 
   function calder(space) {
-    let outlineVertices = [];
+    let outlineVertices = [ ];
     let numVertices = space.sizeBucket + 3;
     for (let i = 0; i < numVertices; i++) {
       //outlineVertices[i] = [ space.center.x + (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusXMultiplier), space.center.y + (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))) * radiusYMultiplier) ]
-      outlineVertices[i] = [ (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))), (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))) ]
+      outlineVertices[i] = {
+        x: (cos(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices)))),
+        y:  (sin(radians(random(i * 360/numVertices, i * 360/numVertices + 180/numVertices))))
+      };
+
       let radiusMultiplier = random(space.radius/(2 * space.sizeBucket), space.radius);
-      outlineVertices[i][0] = outlineVertices[i][0] * radiusMultiplier;
-      outlineVertices[i][1] = outlineVertices[i][1] * radiusMultiplier;
+      outlineVertices[i].x = outlineVertices[i].x * radiusMultiplier;
+      outlineVertices[i].y = outlineVertices[i].y * radiusMultiplier;
 
     }
     return outlineVertices;
