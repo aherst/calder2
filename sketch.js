@@ -7,37 +7,47 @@ function setup() {
   //canvas = createCanvas(11 * 300, 8.5 * 300);
 
   // add some methods to the base canvas object
-  if (!("centerCanvas" in canvas)) canvas.centerCanvas = function ()  {
-    canvas.position((windowWidth - canvas.width) / 2, (windowHeight - canvas.height) / 2);
+  if (!("centerCanvas" in canvas)) {
+    canvas.centerCanvas = function ()  {
+      canvas.position((windowWidth - canvas.width) / 2, (windowHeight - canvas.height) / 2);
+    }
+  } else {
+    console.log('centerCanvas already exists');
   }
 
-  if (!("centerOrigin" in canvas)) canvas.centerOrigin = function ()  {
-    translate(canvas.width / 2, canvas.height / 2);
+  if (!("centerOrigin" in canvas)) {
+    canvas.centerOrigin = function ()  {
+      translate(canvas.width / 2, canvas.height / 2);
+    }
+  } else {
+    console.log('centerOrigin already exists');
   }
 
-  if (!("composition" in canvas)) canvas.composition = new Composition();
+  // add the composition object to the canvas
+  if (!("composition" in canvas)) {
+    canvas.composition = new Composition();
+  } else {
+    console.log('composition already exists');
+  }
 
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
-  background('grey');
-
 }
 
 function draw() {
   canvas.centerCanvas();
   canvas.centerOrigin();
-  fill('white');
 
   // try to add another space to the composition
   canvas.composition.spaces.push(new Space());
 
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
+    background('white');
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
     updateInlineVertices();
-    rect(0,0,canvas.composition.width,canvas.composition.height);
     drawOutlineVertices();
     drawInlineVertices();
   } else {
