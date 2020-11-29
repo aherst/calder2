@@ -1,3 +1,5 @@
+"use strict"
+
 function Palette() {
   this.primary = color(int(random(360)),100,100);
 
@@ -15,7 +17,7 @@ function Palette() {
     minus150: color(360 - (hue(this.primary) - 150) % 360, 100, 75),
   }
 
-  let tetradicSaturation = random(25,100);
+  let tetradicSaturation = int(random(25,75));
   this.tetradic = {
     plus120: color((hue(this.primary) + 120) % 360, tetradicSaturation, 50),
     plus180: color((hue(this.primary) + 180) % 360, tetradicSaturation, 50),
@@ -28,12 +30,27 @@ function Palette() {
     minus90: color(360 - (hue(this.primary) - 90) % 360, 100, 25),
   }
 
-  let analagousSaturation = random(25,100);
+  let analagousSaturation = int(random(25,50));
   this.analagous = {
     plus60: color((hue(this.primary) + 60) % 360, analagousSaturation, 100),
     plus30: color((hue(this.primary) + 30) % 360, analagousSaturation, 100),
     minus30: color(360 - (hue(this.primary) - 30) % 360, analagousSaturation, 100),
     minus60: color(360 - (hue(this.primary) - 60) % 360, analagousSaturation, 100),
+  }
+
+  switch ( int(random(1,5) )) {
+    case 1:
+    this.backgroundColor = this.analagous.plus60;
+    break;
+    case 2:
+    this.backgroundColor =  this.analagous.plus30;
+    break;
+    case 3:
+    this.backgroundColor =  this.analagous.minus30;
+    break;
+    case 4:
+    this.backgroundColor =  this.analagous.minus60;
+    break;
   }
 
   this.chooseFill = function (sizeBucket) {
@@ -107,24 +124,5 @@ function Palette() {
       }
       break;
     }
-  }
-
-  switch ( int(random(1,5) )) {
-    case 1:
-    this.backgroundColor =
-    this.analagous.plus60;
-    break;
-    case 2:
-    this.backgroundColor =
-    this.analagous.plus30;
-    break;
-    case 3:
-    this.backgroundColor =
-    this.analagous.minus30;
-    break;
-    case 4:
-    this.backgroundColor =
-    this.analagous.minus60;
-    break;
   }
 }

@@ -1,3 +1,5 @@
+"use strict"
+
 function Space() {
   this.center = {x: 0, y: 0};
   this.radius = 0;

@@ -25,6 +25,7 @@ function setup() {
 
   // add the composition object to the canvas
   if (!("composition" in canvas)) {
+    console.log('created composition')
     canvas.composition = new Composition();
     canvas.composition.palette = new Palette();
   } else {
@@ -34,6 +35,7 @@ function setup() {
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  colorMode(HSB);
   frameRate(1);
   noStroke();
 }
@@ -55,8 +57,8 @@ function draw() {
     drawInlineVertices();
   } else {
     saveCanvas(canvas, canvas.composition.name + ".png");
-    noLoop();
     canvas.composition = new Composition();
+    canvas.composition.palette = new Palette();
   }
 }
 
