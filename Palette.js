@@ -1,5 +1,7 @@
 "use strict"
 
+colorMode(HSB);
+
 function Palette() {
   this.primary = color(int(random(360)),100,100);
 
@@ -30,7 +32,7 @@ function Palette() {
     minus90: color(360 - (hue(this.primary) - 90) % 360, 100, 25),
   }
 
-  let analagousSaturation = int(random(25,50));
+  let analagousSaturation = int(random(0,50));
   this.analagous = {
     plus60: color((hue(this.primary) + 60) % 360, analagousSaturation, 100),
     plus30: color((hue(this.primary) + 30) % 360, analagousSaturation, 100),

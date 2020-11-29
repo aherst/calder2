@@ -27,6 +27,7 @@ function setup() {
   if (!("composition" in canvas)) {
     console.log('created composition')
     canvas.composition = new Composition();
+    colorMode(HSB);
     canvas.composition.palette = new Palette();
   } else {
     console.log('composition already exists');
@@ -35,7 +36,6 @@ function setup() {
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
-  colorMode(HSB);
   frameRate(1);
   noStroke();
 }

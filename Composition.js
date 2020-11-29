@@ -12,4 +12,5 @@ function Composition() {
   this.height = canvas.height * this.mattedHeight/this.paperHeight;
 
   this.spaces = [];
+  this.palette = new Palette();
 }
