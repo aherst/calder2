@@ -54,9 +54,9 @@ function draw() {
     updateOutlineVertices();
     updateInlineVertices();
     updateLines();
+    drawLines();
     drawOutlineVertices();
     drawInlineVertices();
-    drawLines();
   } else {
     noLoop();
     //saveCanvas(canvas, canvas.composition.name + ".png");
@@ -71,18 +71,19 @@ function updateLines() {
 
 function drawLines() {
   canvas.composition.spaces.forEach(function (space) {
-    push();
-    translate(space.center.x,space.center.y);
-    translate(space.inlineVertices[0].x, space.inlineVertices[0].y);
-    noFill();
-    stroke('black');
-    strokeWeight(space.sizeBucket * 2);
-    ellipse(0,0,10,10);
-    for (let i = -90; i < 90; i+= 10) {
-      line(0, 0, cos(radians(i)) * 100, sin(radians(i)) * 100);
+    if (space.sizeBucket < 5) {
+      push();
+      translate(space.center.x,space.center.y);
+      //    translate(space.inlineVertices[0].x, space.inlineVertices[0].y);
+      noFill();
+      stroke(space.color);
+      strokeWeight(space.sizeBucket);
+      for (let i = 0; i <= 360; i+= 40) {
+        line(cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket), cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2));
+      }
+      noStroke();
+      pop();
     }
-    noStroke();
-    pop();
   });
 }
 
