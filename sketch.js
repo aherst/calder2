@@ -4,7 +4,7 @@ let canvas = {};
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
-  //canvas = createCanvas(11 * 300, 8.5 * 300);
+  canvas = createCanvas(11 * 300, 8.5 * 300);
 
   // add some methods to the base canvas object
   if (!("centerCanvas" in canvas)) {
@@ -58,8 +58,8 @@ function draw() {
     drawOutlineVertices();
     drawInlineVertices();
   } else {
-    noLoop();
-    //saveCanvas(canvas, canvas.composition.name + ".png");
+    //noLoop();
+    saveCanvas(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
     canvas.composition.palette = new Palette();
   }
@@ -71,15 +71,15 @@ function updateLines() {
 
 function drawLines() {
   canvas.composition.spaces.forEach(function (space) {
-    if (space.sizeBucket < 5) {
+    if (space.sizeBucket < 4) {
       push();
       translate(space.center.x,space.center.y);
       //    translate(space.inlineVertices[0].x, space.inlineVertices[0].y);
       noFill();
       stroke(space.color);
-      strokeWeight(space.sizeBucket);
       for (let i = 0; i <= 360; i+= 40) {
-        line(cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket), cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2));
+        strokeWeight(random(space.sizeBucket * 2));
+      line(cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket), cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2));
       }
       noStroke();
       pop();
