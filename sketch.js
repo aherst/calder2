@@ -74,8 +74,14 @@ function drawLines() {
     push();
     translate(space.center.x,space.center.y);
     translate(space.inlineVertices[0].x, space.inlineVertices[0].y);
-    fill('yellow');
+    noFill();
+    stroke('black');
+    strokeWeight(space.sizeBucket * 2);
     ellipse(0,0,10,10);
+    for (let i = -90; i < 90; i+= 10) {
+      line(0, 0, cos(radians(i)) * 100, sin(radians(i)) * 100);
+    }
+    noStroke();
     pop();
   });
 }
