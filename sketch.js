@@ -58,6 +58,7 @@ function draw() {
     drawInlineVertices();
     drawLines();
   } else {
+    noLoop();
     //saveCanvas(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
     canvas.composition.palette = new Palette();
@@ -71,6 +72,7 @@ function updateLines() {
 function drawLines() {
   canvas.composition.spaces.forEach(function (space) {
     push();
+    translate(space.center.x,space.center.y);
     translate(space.inlineVertices[0].x, space.inlineVertices[0].y);
     fill('yellow');
     ellipse(0,0,10,10);
