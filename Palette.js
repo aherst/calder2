@@ -1,6 +1,6 @@
 "use strict"
 
-colorMode(HSB);
+//colorMode(HSB);
 
 function Palette() {
   this.primary = color(int(random(360)),100,100);

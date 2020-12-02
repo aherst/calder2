@@ -5,11 +5,19 @@ let canvas = {};
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas = createCanvas(11 * 300, 8.5 * 300);
+  canvas.width = canvas.width;
+
+  // set some p5.js defaults
+  rectMode(CENTER);
+  ellipseMode(RADIUS);
+  frameRate(1);
+  noStroke();
+  colorMode(HSB);
 
   // add some methods to the base canvas object
   if (!("centerCanvas" in canvas)) {
     canvas.centerCanvas = function ()  {
-      canvas.position((windowWidth - canvas.width) / 2, (windowHeight - canvas.height) / 2);
+      canvas.position(int((windowWidth - canvas.width) / 2), int((windowHeight - canvas.height) / 2));
     }
   } else {
     console.log('centerCanvas already exists');
@@ -17,7 +25,7 @@ function setup() {
 
   if (!("centerOrigin" in canvas)) {
     canvas.centerOrigin = function ()  {
-      translate(canvas.width / 2, canvas.height / 2);
+      translate(int(canvas.width / 2), int(canvas.height / 2));
     }
   } else {
     console.log('centerOrigin already exists');
@@ -25,19 +33,12 @@ function setup() {
 
   // add the composition object to the canvas
   if (!("composition" in canvas)) {
-    console.log('created composition')
     canvas.composition = new Composition();
-    colorMode(HSB);
     canvas.composition.palette = new Palette();
   } else {
     console.log('composition already exists');
   }
 
-  // set some p5.js defaults
-  rectMode(CENTER);
-  ellipseMode(RADIUS);
-  frameRate(1);
-  noStroke();
 }
 
 function draw() {
@@ -48,7 +49,9 @@ function draw() {
   // returns center == null if we can't place another space
   canvas.composition.spaces.push(new Space());
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
-    background(canvas.composition.palette.backgroundColor);
+    background('white');
+    //background(canvas.composition.palette.backgroundColor);
+    drawBackground();
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
@@ -58,11 +61,32 @@ function draw() {
     drawOutlineVertices();
     drawInlineVertices();
   } else {
-    //noLoop();
+    noLoop();
     saveCanvas(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
     canvas.composition.palette = new Palette();
   }
+}
+
+function drawBackground() {
+  push();
+  translate(-canvas.width/2,-canvas.height/2);
+  colorMode(RGB);
+  let backgroundColor;
+  for (let i = 0; i <= canvas.height; i++) {
+    if (i < canvas.height/2) {
+      console.log(1 - (i / (canvas.height / 2) ) )
+    backgroundColor = lerpColor(color(255,255,255),color(canvas.composition.palette.backgroundColor), (i / (canvas.height / 2) ) );
+    } else {
+      console.log(1 - (i / (canvas.height / 2) ) )
+      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color(0,0,0), abs(1 - (i / (canvas.height / 2) ) ) );
+    }
+    stroke(backgroundColor);
+    line(0,i,canvas.width,i);
+  }
+  colorMode(HSB);
+  pop();
+  noStroke();
 }
 
 function updateLines() {
@@ -79,7 +103,7 @@ function drawLines() {
       stroke(space.color);
       for (let i = 0; i <= 360; i+= 40) {
         strokeWeight(random(space.sizeBucket * 2));
-      line(cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket), cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2));
+        line(cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket), cos(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2), sin(radians(i)) * random(space.radius,space.radius * space.sizeBucket *2));
       }
       noStroke();
       pop();
