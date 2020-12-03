@@ -74,16 +74,16 @@ function drawCircularGradient() {
   colorMode(RGB);
   let backgroundColor;
   let radius = int(dist(0,0,canvas.width/2,canvas.height/2));
-  for (let i = 0; i <= radius; i++) {
-    if (i < radius/2) {
-      backgroundColor = lerpColor(color(255,255,255),color(canvas.composition.palette.backgroundColor), (i / (radius / 2 ) ) );
+  for (let i = radius; i >= 0; i--) {
+    if (i <= radius / 2) {
+      backgroundColor = lerpColor(color(0,0,0), color(canvas.composition.palette.backgroundColor), (i / (radius ) ) );
     } else {
-      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color(0,0,0), abs(1 - ( i / (radius / 2 ) ) ) );
+      backgroundColor = lerpColor(color(255,255,255), color(canvas.composition.palette.backgroundColor), abs(1 - ( i / (radius / 2 ) ) ) );
     }
     stroke(backgroundColor);
-    noFill();
-    ellipse(0,0,i,i);
-    console.log(i/radius);
+    //noFill();
+    fill(backgroundColor);
+    ellipse(0, 0, i, i);
   }
   colorMode(HSB);
   pop();
