@@ -4,7 +4,7 @@ let canvas = {};
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
-  canvas = createCanvas(11 * 300, 8.5 * 300);
+  //canvas = createCanvas(11 * 300, 8.5 * 300);
   canvas.width = canvas.width;
 
   // set some p5.js defaults
@@ -51,7 +51,7 @@ function draw() {
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
     background('white');
     //background(canvas.composition.palette.backgroundColor);
-    drawBackground();
+    drawCircularGradient();
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
@@ -68,17 +68,37 @@ function draw() {
   }
 }
 
-function drawBackground() {
+function drawCircularGradient() {
+  push();
+  //translate(-canvas.width/2,-canvas.height/2);
+  colorMode(RGB);
+  let backgroundColor;
+  let radius = int(dist(0,0,canvas.width/2,canvas.height/2));
+  for (let i = 0; i <= radius; i++) {
+    if (i < radius/2) {
+      backgroundColor = lerpColor(color(255,255,255),color(canvas.composition.palette.backgroundColor), (i / (radius / 2 ) ) );
+    } else {
+      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color(0,0,0), abs(1 - ( i / (radius / 2 ) ) ) );
+    }
+    stroke(backgroundColor);
+    noFill();
+    ellipse(0,0,i,i);
+    console.log(i/radius);
+  }
+  colorMode(HSB);
+  pop();
+  noStroke();
+}
+
+function drawGradient() {
   push();
   translate(-canvas.width/2,-canvas.height/2);
   colorMode(RGB);
   let backgroundColor;
   for (let i = 0; i <= canvas.height; i++) {
     if (i < canvas.height/2) {
-      console.log(1 - (i / (canvas.height / 2) ) )
-    backgroundColor = lerpColor(color(255,255,255),color(canvas.composition.palette.backgroundColor), (i / (canvas.height / 2) ) );
+      backgroundColor = lerpColor(color(255,255,255),color(canvas.composition.palette.backgroundColor), (i / (canvas.height / 2) ) );
     } else {
-      console.log(1 - (i / (canvas.height / 2) ) )
       backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color(0,0,0), abs(1 - (i / (canvas.height / 2) ) ) );
     }
     stroke(backgroundColor);
