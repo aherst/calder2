@@ -10,7 +10,6 @@ function setup() {
 
   // set some p5.js defaults
   rectMode(CENTER);
-  ellipseMode(RADIUS);
   imageMode(CENTER);
   //frameRate(1);
   noStroke();
@@ -45,19 +44,6 @@ function setup() {
   updateCanvasGradient();
 }
 
-function updateCanvasGradient() {
-  canvasGradient.push();
-  canvasGradient.translate(canvas.width/2,canvas.height/2);
-  canvasGradient.stroke('red');
-  canvasGradient.fill('red');
-  canvasGradient.ellipse(0,0,100,100);
-  canvasGradient.pop();
-}
-
-function drawCanvasGradient() {
-  image(canvasGradient, 0, 0);
-}
-
 function draw() {
   canvas.centerCanvas();
   canvas.centerOrigin();
@@ -74,18 +60,48 @@ function draw() {
     updateLines();
     updateCanvasGradient();
     background('white');
+    drawCanvasGradient();
     //drawGradient();
     //drawCircularGradient();
     //drawLines();
     drawOutlineVertices();
     drawInlineVertices();
-    drawCanvasGradient();
   } else {
     noLoop();
     //saveCanvas(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
     canvas.composition.palette = new Palette();
   }
+}
+
+
+
+function updateCanvasGradient() {
+  canvasGradient.ellipseMode(RADIUS);
+
+  canvasGradient.push();
+  canvasGradient.translate(canvas.width/2,canvas.height/2);
+
+  colorMode(RGB);
+  let backgroundColor;
+  let radius = int(dist(0,0,canvas.width/2,canvas.height/2));
+  for (let i = radius; i >= 0; i--) {
+    if (i <= radius) {
+      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color(255,255,255), (radius - i) / radius );
+    } else {
+      backgroundColor = lerpColor(color(255,255,255), color(canvas.composition.palette.backgroundColor), abs(1 - ( i / (radius / 2 ) ) ) );
+    }
+    canvasGradient.stroke(backgroundColor);
+    //noFill();
+    canvasGradient.fill(backgroundColor);
+    canvasGradient.ellipse(0, 0, i, i);
+  }
+  colorMode(HSB);
+  canvasGradient.pop();
+}
+
+function drawCanvasGradient() {
+  image(canvasGradient, 0, 0);
 }
 
 function drawCircularGradient() {
