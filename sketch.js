@@ -11,6 +11,7 @@ function setup() {
   // set some p5.js defaults
   rectMode(CENTER);
   ellipseMode(RADIUS);
+  imageMode(CENTER);
   //frameRate(1);
   noStroke();
   colorMode(HSB);
@@ -45,11 +46,16 @@ function setup() {
 }
 
 function updateCanvasGradient() {
+  canvasGradient.push();
+  canvasGradient.translate(canvas.width/2,canvas.height/2);
+  canvasGradient.stroke('red');
+  canvasGradient.fill('red');
   canvasGradient.ellipse(0,0,100,100);
+  canvasGradient.pop();
 }
 
 function drawCanvasGradient() {
-
+  image(canvasGradient, 0, 0);
 }
 
 function draw() {
