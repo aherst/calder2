@@ -1,10 +1,11 @@
 "use strict"
 
 let canvas = {};
+let canvasGradient = {};
 
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
-  canvas = createCanvas(11 * 300, 8.5 * 300);
+  //canvas = createCanvas(11 * 300, 8.5 * 300);
   canvas.width = canvas.width;
 
   // set some p5.js defaults
@@ -35,10 +36,19 @@ function setup() {
   if (!("composition" in canvas)) {
     canvas.composition = new Composition();
     canvas.composition.palette = new Palette();
-    let backgroundGradient = createGraphics(canvas.width,canvas.height);
   } else {
     console.log('composition already exists');
   }
+
+  canvasGradient = createGraphics(canvas.width,canvas.height);
+  updateCanvasGradient();
+}
+
+function updateCanvasGradient() {
+  canvasGradient.ellipse(0,0,100,100);
+}
+
+function drawCanvasGradient() {
 
 }
 
@@ -56,15 +66,17 @@ function draw() {
     updateOutlineVertices();
     updateInlineVertices();
     updateLines();
+    updateCanvasGradient();
     background('white');
-    drawGradient();
-    drawCircularGradient();
+    //drawGradient();
+    //drawCircularGradient();
     //drawLines();
     drawOutlineVertices();
     drawInlineVertices();
+    drawCanvasGradient();
   } else {
     noLoop();
-    saveCanvas(canvas, canvas.composition.name + ".png");
+    //saveCanvas(canvas, canvas.composition.name + ".png");
     canvas.composition = new Composition();
     canvas.composition.palette = new Palette();
   }
