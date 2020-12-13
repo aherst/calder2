@@ -58,7 +58,6 @@ function draw() {
     updateOutlineVertices();
     updateInlineVertices();
     updateLines();
-    updateCanvasGradient();
     background('white');
     drawCanvasGradient();
     //drawGradient();
@@ -80,11 +79,11 @@ function updateCanvasGradient() {
   canvasGradient.ellipseMode(RADIUS);
 
   canvasGradient.push();
-  canvasGradient.translate(canvas.width/2,canvas.height/2);
+  canvasGradient.translate(random(canvas.width),random(canvas.height));
 
   colorMode(RGB);
   let backgroundColor;
-  let radius = int(dist(0,0,canvas.width/2,canvas.height/2));
+  let radius = int(dist(0,0,canvas.width,canvas.height));
   for (let i = radius; i >= 0; i--) {
     if (i <= radius) {
       backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color(255,255,255), (radius - i) / radius );
