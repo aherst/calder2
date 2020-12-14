@@ -85,10 +85,10 @@ function updateCanvasGradient() {
   let backgroundColor;
   let radius = int(dist(0,0,canvas.width,canvas.height));
   for (let i = radius; i >= 0; i--) {
-    if (i <= radius / 2) {
-      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color(255,255,255), (radius - i) / radius );
+    if (i >= radius/2) {
+      backgroundColor = lerpColor(color('black'), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
     } else {
-      backgroundColor = lerpColor(color(0,0,0), color(canvas.composition.palette.backgroundColor), (radius - i) / radius );
+      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color('white'),  (radius/2 - i) / (radius/2) );
     }
     canvasGradient.stroke(backgroundColor);
     //noFill();
