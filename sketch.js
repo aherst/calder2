@@ -40,7 +40,7 @@ function setup() {
     console.log('composition already exists');
   }
 
-  canvasGradient = createGraphics(canvas.width,canvas.height);
+  canvasGradient = createGraphics(canvas.width, canvas.height);
   updateCanvasGradient();
 }
 
@@ -52,7 +52,7 @@ function draw() {
   // returns center == null if we can't place another space
   canvas.composition.spaces.push(new Space());
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
-    //background(canvas.composition.palette.backgroundColor);
+    background(canvas.composition.palette.backgroundColor);
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
@@ -84,7 +84,7 @@ function updateCanvasGradient() {
   let startColor = (random() < .5) ? 'white' : 'black';
   let stopColor = (random() < .5) ? 'white' : 'black';
 
-  let radius = int(dist(0,0,canvas.width,canvas.height));
+  let radius = int(dist(0,0,canvasGradient.width,canvasGradient.height));
   for (let i = radius; i >= 0; i--) {
     if (i >= radius/2) {
       backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
@@ -101,7 +101,10 @@ function updateCanvasGradient() {
 }
 
 function drawCanvasGradient() {
+  //push();
+  //translate(random(canvas.width),random(canvas.height));
   image(canvasGradient, 0, 0);
+  //pop();
 }
 
 function drawCircularGradient() {
