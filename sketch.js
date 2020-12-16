@@ -73,8 +73,6 @@ function draw() {
   }
 }
 
-
-
 function updateCanvasGradient() {
   canvasGradient.ellipseMode(RADIUS);
 
@@ -83,12 +81,15 @@ function updateCanvasGradient() {
 
   colorMode(RGB);
   let backgroundColor;
+  let startColor = (random() < .5) ? 'white' : 'black';
+  let stopColor = (random() < .5) ? 'white' : 'black';
+
   let radius = int(dist(0,0,canvas.width,canvas.height));
   for (let i = radius; i >= 0; i--) {
     if (i >= radius/2) {
-      backgroundColor = lerpColor(color('black'), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
+      backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
     } else {
-      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color('white'),  (radius/2 - i) / (radius/2) );
+      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color(startColor),  (radius/2 - i) / (radius/2) );
     }
     canvasGradient.stroke(backgroundColor);
     //noFill();
