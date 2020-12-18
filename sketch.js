@@ -52,7 +52,7 @@ function draw() {
   // returns center == null if we can't place another space
   canvas.composition.spaces.push(new Space());
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
-    background(canvas.composition.palette.backgroundColor);
+    //background(canvas.composition.palette.backgroundColor);
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
@@ -86,10 +86,10 @@ function updateCanvasGradient() {
 
   let radius = int(dist(0,0,canvasGradient.width,canvasGradient.height));
   for (let i = radius; i >= 0; i--) {
-    if (i >= radius/2) {
-      backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
+    if (i > radius) {
+      backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius - i) / (radius) ) );
     } else {
-      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color(startColor),  (radius/2 - i) / (radius/2) );
+      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color(startColor),  (radius - i) / (radius) );
     }
     canvasGradient.stroke(backgroundColor);
     //noFill();
