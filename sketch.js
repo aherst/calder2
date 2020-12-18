@@ -40,7 +40,7 @@ function setup() {
     console.log('composition already exists');
   }
 
-  canvasGradient = createGraphics(canvas.width, canvas.height);
+  canvasGradient = createGraphics(canvas.width * 2, canvas.height * 2);
   updateCanvasGradient();
 }
 
@@ -86,10 +86,11 @@ function updateCanvasGradient() {
 
   let radius = int(dist(0,0,canvasGradient.width,canvasGradient.height));
   for (let i = radius; i >= 0; i--) {
-    if (i > radius) {
-      backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius - i) / (radius) ) );
+    if (i < radius/2) {
+      backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
     } else {
-      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color(startColor),  (radius - i) / (radius) );
+      //backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color(startColor),  (radius - i) / (radius) );
+      backgroundColor = canvas.composition.palette.backgroundColor;
     }
     canvasGradient.stroke(backgroundColor);
     //noFill();
