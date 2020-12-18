@@ -53,13 +53,12 @@ function draw() {
   // returns center == null if we can't place another space
   canvas.composition.spaces.push(new Space());
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
-    //background(canvas.composition.palette.backgroundColor);
     updateSizeBuckets();
     updateColors();
     updateOutlineVertices();
     updateInlineVertices();
     updateLines();
-    background('white');
+    background(canvas.composition.palette.backgroundColor);
     drawCanvasGradient();
     //drawGradient();
     //drawCircularGradient();
@@ -104,11 +103,24 @@ function updateCanvasGradient() {
 }
 
 function drawCanvasGradient() {
-  // find the largest space
+  // find the centre of the largest space
+  let x = 0;
+  let y = 0;
+  let radius = 1;
+
+  canvas.composition.spaces.forEach(function (space) {
+    if (space.radius > radius) {
+      x = space.center.x;
+      y = space.center.y;
+      radius = space.radius;
+    }
+  });
+
 
   // centre the gradient behind the largest space
   push();
-  translate(random(-canvas.width/2,canvas.width/2),random(-canvas.height/2,canvas.height/2));
+  //translate(random(-canvas.width/2,canvas.width/2),random(-canvas.height/2,canvas.height/2));
+  translate(x,y);
   image(canvasGradient, 0, 0);
   pop();
 }
