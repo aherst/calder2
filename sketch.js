@@ -41,6 +41,7 @@ function setup() {
   }
 
   canvasGradient = createGraphics(canvas.width * 2, canvas.height * 2);
+  console.log(canvas.width,canvas.height,canvasGradient.width,canvasGradient.height);
   updateCanvasGradient();
 }
 
@@ -77,14 +78,15 @@ function updateCanvasGradient() {
   canvasGradient.ellipseMode(RADIUS);
 
   canvasGradient.push();
-  canvasGradient.translate(random(canvas.width),random(canvas.height));
+  //canvasGradient.translate(random(canvas.width),random(canvas.height));
+  canvasGradient.translate(canvasGradient.width/2,canvasGradient.height/2);
 
   colorMode(RGB);
   let backgroundColor;
   let startColor = (random() < .5) ? 'white' : 'black';
   let stopColor = (random() < .5) ? 'white' : 'black';
 
-  let radius = int(dist(0,0,canvasGradient.width,canvasGradient.height));
+  let radius = int(dist(0,0,canvasGradient.width/2,canvasGradient.height/2));
   for (let i = radius; i >= 0; i--) {
     if (i < radius/2) {
       backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
@@ -102,10 +104,10 @@ function updateCanvasGradient() {
 }
 
 function drawCanvasGradient() {
-  //push();
-  //translate(random(canvas.width),random(canvas.height));
+  push();
+  //translate(canvas.width/2,canvas.height/2);
   image(canvasGradient, 0, 0);
-  //pop();
+  pop();
 }
 
 function drawCircularGradient() {
