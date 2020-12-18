@@ -11,7 +11,7 @@ function setup() {
   // set some p5.js defaults
   rectMode(CENTER);
   imageMode(CENTER);
-  //frameRate(1);
+  frameRate(1);
   noStroke();
   colorMode(HSB);
 
@@ -104,8 +104,11 @@ function updateCanvasGradient() {
 }
 
 function drawCanvasGradient() {
+  // find the largest space
+
+  // centre the gradient behind the largest space
   push();
-  //translate(canvas.width/2,canvas.height/2);
+  translate(random(-canvas.width/2,canvas.width/2),random(-canvas.height/2,canvas.height/2));
   image(canvasGradient, 0, 0);
   pop();
 }
