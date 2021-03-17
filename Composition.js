@@ -1,6 +1,6 @@
 "use strict"
 
-function Composition() {
+export function Composition() {
   this.name = "calder2_" + year() + month() + day() + hour() + minute() + second();
 
   this.paperWidth = 8.5;

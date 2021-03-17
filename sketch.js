@@ -1,4 +1,7 @@
+/// <reference path="../_P5JS-Project-Template-for-VSCode/TSDef/p5.global-mode.d.ts" />
+
 "use strict"
+import { Composition } from 'Composition.js';
 
 let canvas = {};
 let canvasGradient = {};
@@ -81,14 +84,13 @@ function updateCanvasGradient() {
   canvasGradient.translate(canvasGradient.width/2,canvasGradient.height/2);
 
   colorMode(RGB);
+  let shadeOfGrey = (int(random(0,256)));
   let backgroundColor;
-  let startColor = (random() < .5) ? 'white' : 'black';
-  let stopColor = (random() < .5) ? 'white' : 'black';
 
   let radius = int(dist(0,0,canvasGradient.width/2,canvasGradient.height/2));
   for (let i = radius; i >= 0; i--) {
     if (i < radius/2) {
-      backgroundColor = lerpColor(color(stopColor), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
+      backgroundColor = lerpColor(color(shadeOfGrey), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
     } else {
       //backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color(startColor),  (radius - i) / (radius) );
       backgroundColor = canvas.composition.palette.backgroundColor;
