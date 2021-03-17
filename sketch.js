@@ -1,7 +1,6 @@
 /// <reference path="../_P5JS-Project-Template-for-VSCode/TSDef/p5.global-mode.d.ts" />
 
 "use strict"
-import { Composition } from 'Composition.js';
 
 let canvas = {};
 let canvasGradient = {};
@@ -44,7 +43,6 @@ function setup() {
   }
 
   canvasGradient = createGraphics(canvas.width * 2, canvas.height * 2);
-  console.log(canvas.width,canvas.height,canvasGradient.width,canvasGradient.height);
   updateCanvasGradient();
 }
 
@@ -52,9 +50,9 @@ function draw() {
   canvas.centerCanvas();
   canvas.centerOrigin();
 
-  // try to add another space to the composition
-  // returns center == null if we can't place another space
+  // try to add another space object to the spaces array
   canvas.composition.spaces.push(new Space());
+  // Space() pushes a null onto the end of spaces[] if we can't place another space
   if (canvas.composition.spaces[canvas.composition.spaces.length - 1].center != null) {
     updateSizeBuckets();
     updateColors();
