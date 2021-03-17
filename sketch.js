@@ -82,19 +82,18 @@ function updateCanvasGradient() {
   canvasGradient.translate(canvasGradient.width/2,canvasGradient.height/2);
 
   colorMode(RGB);
-  let shadeOfGrey = (int(random(0,256)));
   let backgroundColor;
 
+  // we want the radius to describe a circle that enscribes canvasGradient
   let radius = int(dist(0,0,canvasGradient.width/2,canvasGradient.height/2));
+  // start drawing circles from the outside in going from black to color to white in the centre
   for (let i = radius; i >= 0; i--) {
-    if (i < radius/2) {
-      backgroundColor = lerpColor(color(shadeOfGrey), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
+    if (i > radius/2) {
+      backgroundColor = lerpColor(color('black'), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
     } else {
-      //backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor),color(startColor),  (radius - i) / (radius) );
-      backgroundColor = canvas.composition.palette.backgroundColor;
+      backgroundColor = lerpColor(color('white'), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
     }
     canvasGradient.stroke(backgroundColor);
-    //noFill();
     canvasGradient.fill(backgroundColor);
     canvasGradient.ellipse(0, 0, i, i);
   }
