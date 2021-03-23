@@ -37,7 +37,6 @@ function setup() {
   // add the composition object to the canvas
   if (!("composition" in canvas)) {
     canvas.composition = new Composition();
-    canvas.composition.palette = new Palette();
   } else {
     console.log('composition already exists');
   }
@@ -76,9 +75,7 @@ function draw() {
 
 function updateCanvasGradient() {
   canvasGradient.ellipseMode(RADIUS);
-
   canvasGradient.push();
-  //canvasGradient.translate(random(canvas.width),random(canvas.height));
   canvasGradient.translate(canvasGradient.width/2,canvasGradient.height/2);
 
   colorMode(RGB);
@@ -88,10 +85,11 @@ function updateCanvasGradient() {
   let radius = int(dist(0,0,canvasGradient.width/2,canvasGradient.height/2));
   // start drawing circles from the outside in going from black to color to white in the centre
   for (let i = radius; i >= 0; i--) {
-    if (i > radius/2) {
-      backgroundColor = lerpColor(color('black'), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
+    if (i >= radius/2) {
+      backgroundColor = lerpColor(color('black'), color(canvas.composition.palette.backgroundColor), 1 - (i - radius/2)/(radius/2) );
     } else {
-      backgroundColor = lerpColor(color('white'), color(canvas.composition.palette.backgroundColor), 1 -(abs(radius/2 - i) / (radius/2) ) );
+      // backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color('white'), 1 -(abs(radius/2 - i) / (radius/2) ) );
+      backgroundColor = lerpColor(color(canvas.composition.palette.backgroundColor), color('white'), 1 - i/(radius/2) );
     }
     canvasGradient.stroke(backgroundColor);
     canvasGradient.fill(backgroundColor);
